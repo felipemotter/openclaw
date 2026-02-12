@@ -4,13 +4,17 @@ services:
     environment:
       HOME: /home/node
       TERM: xterm-256color
+      NODE_PATH: /app/node_modules:/home/node/.openclaw/workspace/node_modules
       OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
+      MOONSHOT_API_KEY: ${MOONSHOT_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
       CLAUDE_AI_SESSION_KEY: ${CLAUDE_AI_SESSION_KEY}
       CLAUDE_WEB_SESSION_KEY: ${CLAUDE_WEB_SESSION_KEY}
       CLAUDE_WEB_COOKIE: ${CLAUDE_WEB_COOKIE}
     volumes:
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw
       - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace
+      - ${CLAUDE_CONFIG_DIR:-~/.claude}:/home/node/.claude
     ports:
       - "${OPENCLAW_GATEWAY_PORT:-18789}:18789"
       - "${OPENCLAW_BRIDGE_PORT:-18790}:18790"
@@ -32,7 +36,10 @@ services:
     environment:
       HOME: /home/node
       TERM: xterm-256color
+      NODE_PATH: /app/node_modules:/home/node/.openclaw/workspace/node_modules
       OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
+      MOONSHOT_API_KEY: ${MOONSHOT_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
       BROWSER: echo
       CLAUDE_AI_SESSION_KEY: ${CLAUDE_AI_SESSION_KEY}
       CLAUDE_WEB_SESSION_KEY: ${CLAUDE_WEB_SESSION_KEY}
@@ -40,7 +47,9 @@ services:
     volumes:
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw
       - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace
+      - ${CLAUDE_CONFIG_DIR:-~/.claude}:/home/node/.claude
     stdin_open: true
     tty: true
     init: true
+    network_mode: host
     entrypoint: ["node", "dist/index.js"]

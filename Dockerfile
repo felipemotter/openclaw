@@ -63,6 +63,10 @@ ENV NODE_ENV=production
 # This reduces the attack surface by preventing container escape via root privileges
 USER node
 
+# Install Claude Code CLI (native installer, no Node.js dependency)
+RUN curl -fsSL https://claude.ai/install.sh | bash
+ENV PATH="/home/node/.local/bin:${PATH}"
+
 # Start gateway server with default config.
 # Binds to loopback (127.0.0.1) by default for security.
 #
